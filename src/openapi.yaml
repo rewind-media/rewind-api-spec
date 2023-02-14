@@ -1,0 +1,528 @@
+openapi: 3.0.3
+info:
+  title: Rewind Api
+  version: "0.1.0"
+  description: Specification for the Rewind HTTP API
+paths:
+  /api/episode/{id}:
+    get:
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "The id for the desired episode info."
+          schema:
+            $ref: "#/components/schemas/EpisodeInfo"
+      responses:
+        "200":
+          description: "Successful query. "
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeInfo"
+
+  /api/auth/login:
+    post:
+      security:
+        - LoginAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: "Successful login"
+
+  /api/auth/logout:
+    post:
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successful logout"
+
+  /api/auth/verify:
+    get:
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "User is valid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        401:
+          description: "User is not valid"
+
+  /api/user/list:
+    get:
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully listed and returned a list of users."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /api/user/create:
+    post:
+      security:
+        - CookieAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
+      responses:
+        200:
+          description: "Successfully created user"
+
+  /api/user/delete:
+    post:
+      security:
+        - CookieAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteUsersRequest"
+      responses:
+        200:
+          description: "Successfully deleted all users in request."
+
+  /api/user/changePassword:
+    post:
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully changed user password."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangePasswordRequest"
+
+  /api/user/progress/latest:
+    post:
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully returned latest media."
+
+  /api/user/progress/get:
+    post:
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully returned media progress."
+
+  /api/user/progress/put:
+    post:
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully put media progress."
+
+  /api/lib/create:
+    post:
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully created the library."
+
+  /api/lib/delete:
+    delete:
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully deleted the library."
+
+  /api/lib/list:
+    get:
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully listed libraries."
+
+  /api/lib/get/{libraryId}:
+    get:
+      parameters:
+        - name: libraryId
+          in: path
+          required: true
+          description: "The id for the desired LibraryInfo."
+          schema:
+            $ref: "#/components/schemas/LibraryId"
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully got LibraryInfo"
+
+  /api/show/list/{libraryId}:
+    get:
+      parameters:
+        - name: libraryId
+          in: path
+          required: true
+          description: "The LibraryId within which to fetch the desired ShowInfo."
+          schema:
+            $ref: "#/components/schemas/LibraryId"
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully listed shows."
+
+  /api/show/get/{showId}:
+    get:
+      parameters:
+        - name: showId
+          in: path
+          required: true
+          description: "The ShowId for which to fetch the desired ShowInfo."
+          schema:
+            $ref: "#/components/schemas/ShowId"
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully returned ShowInfo."
+
+  /api/season/list/{showId}:
+    get:
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: showId
+          in: path
+          required: true
+          description: "The ShowId for which to fetch the desired SeasonInfos."
+          schema:
+            $ref: "#/components/schemas/ShowId"
+      responses:
+        200:
+          description: "Successful query"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShowInfo"
+
+  /api/season/get/{seasonId}:
+    get:
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: seasonId
+          in: path
+          required: true
+          description: "The season to retrieve"
+          schema:
+            $ref: "#/components/schemas/SeasonId"
+      responses:
+        "200":
+          description: "Successful query. "
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeasonInfo"
+
+  /api/episode/list/{seasonId}:
+    get:
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: seasonId
+          in: path
+          required: true
+          description: "The season for which to list all episodes for"
+          schema:
+            $ref: "#/components/schemas/SeasonId"
+      responses:
+        "200":
+          description: "Successful query. "
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeInfo"
+
+  /api/episode/get/{episodeId}:
+    get:
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: episodeId
+          in: path
+          required: true
+          description: "The id for the desired episode info."
+          schema:
+            $ref: "#/components/schemas/EpisodeId"
+      responses:
+        "200":
+          description: "Successful query. "
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeInfo"
+
+  /api/episode/next/{episodeId}:
+    get:
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: episodeId
+          in: path
+          required: true
+          description: "The id for the current episode, for which the subsequent EpisodeInfo will be returned"
+          schema:
+            $ref: "#/components/schemas/EpisodeId"
+      responses:
+        "200":
+          description: "Successful query. "
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeInfo"
+
+  /api/stream/create:
+    post:
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully created the stream."
+
+  /api/stream/delete/{streamId}:
+    delete:
+      parameters:
+        - name: streamId
+          in: path
+          required: true
+          description: "The StreamId to delete."
+          schema:
+            $ref: "#/components/schemas/StreamId"
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully deleted the stream."
+
+  /api/stream/heartbeat/{streamId}:
+    post:
+      parameters:
+        - name: streamId
+          in: path
+          required: true
+          description: "The StreamId to heartbeat."
+          schema:
+            $ref: "#/components/schemas/StreamId"
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully heartbeated the stream."
+
+  /api/stream/{streamId}/index.m3u8:
+    get:
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: streamId
+          in: path
+          required: true
+          description: "The StreamId to get the HLS stream index of."
+          schema:
+            $ref: "#/components/schemas/StreamId"
+      responses:
+        200:
+          description: "Successfully got the HLS stream index."
+
+  /api/stream/{streamId}/stream.m3u8:
+    get:
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: streamId
+          in: path
+          required: true
+          description: "The StreamId to get the HLS video stream of."
+          schema:
+            $ref: "#/components/schemas/StreamId"
+      responses:
+        200:
+          description: "Successfully got the HLS video stream."
+
+  /api/stream/{streamId}/subs.m3u8:
+    get:
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: streamId
+          in: path
+          required: true
+          description: "The StreamId to get the HLS subtitles stream of."
+          schema:
+            $ref: "#/components/schemas/StreamId"
+      responses:
+        200:
+          description: "Successfully got the HLS subtitles stream"
+
+  /api/stream/{streamId}/subs.vtt:
+    get:
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: streamId
+          in: path
+          required: true
+          description: "The StreamId to get the stream subtitles of."
+          schema:
+            $ref: "#/components/schemas/StreamId"
+      responses:
+        200:
+          description: "Successfully got the stream subtitles."
+
+  /api/stream/{streamId}/init-stream.mp4:
+    get:
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: streamId
+          in: path
+          required: true
+          description: "The StreamId to get the stream initial mp4 of."
+          schema:
+            $ref: "#/components/schemas/StreamId"
+      responses:
+        200:
+          description: "Successfully got the stream initial mp4."
+
+  /api/stream/{streamId}/{segmentId}.m4s:
+    get:
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: streamId
+          in: path
+          required: true
+          description: "The StreamId to get the segment of."
+          schema:
+            $ref: "#/components/schemas/StreamId"
+        - name: segmentId
+          in: path
+          required: true
+          description: "The SegmentId to get."
+          schema:
+            $ref: "#/components/schemas/SegmentId"
+      responses:
+        200:
+          description: "Successfully got a stream segment."
+
+  /api/image/{imageId}:
+    get:
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: imageId
+          in: path
+          required: true
+          description: "The ImageId to retrieve."
+          schema:
+            $ref: "#/components/schemas/ImageId"
+      responses:
+        200:
+          description: "Successfully retrieved an image."
+
+components:
+  schemas:
+    ImageId:
+      type: string
+    StreamId:
+      type: string
+    SegmentId:
+      type: string
+    LibraryId:
+      type: string
+    ShowId:
+      type: string
+    SeasonId:
+      type: string
+    EpisodeId:
+      type: string
+    Username:
+      type: string
+    Password:
+      type: string
+    UserPermissions:
+      type: object
+      properties:
+        isAdmin:
+          type: boolean
+    ShowInfo:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/ShowId"
+    SeasonInfo:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/SeasonId"
+    EpisodeInfo:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/EpisodeId"
+    User:
+      type: object
+      properties:
+        username:
+          $ref: "#/components/schemas/Username"
+        permissions:
+          $ref: "#/components/schemas/UserPermissions"
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          $ref: "#/components/schemas/Username"
+        password:
+          $ref: "#/components/schemas/Password"
+    CreateUserRequest:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        password:
+          $ref: "#/components/schemas/Password"
+    DeleteUsersRequest:
+      type: array
+      items:
+        $ref: "#/components/schemas/User"
+    ChangePasswordRequest:
+      type: object
+      properties:
+        oldPassword:
+          $ref: "#/components/schemas/Password"
+        newPassword:
+          $ref: "#/components/schemas/Password"
+  securitySchemes:
+    CookieAuth:
+      type: apiKey
+      in: cookie
+      name: RewindSession
+    LoginAuth:
+      type: http
+      scheme: basic

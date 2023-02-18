@@ -17,7 +17,7 @@
     "prettier": "prettier --write .",
     "update": "npm update --save && ((! git diff --exit-code package.json > /dev/null && git add package.json && git commit -m 'Dependency updates') || true)",
     "bundle": "mkdir -p ./dist && npx swagger-cli bundle ./src/openapi.yaml -o ./dist/openapi.json",
-    "validate": "swagger-cli validate ./dist/openapi.json",
+    "validate": "npx swagger-cli validate ./dist/openapi.json",
     "build": "npm run clean && npm run prettier && npm run bundle && npm run validate"
   },
   "eslintConfig": {},
@@ -27,5 +27,6 @@
   },
   "files": [
     "./dist/openapi.json"
-  ]
+  ],
+  "main": "./dist/openapi.json"
 }

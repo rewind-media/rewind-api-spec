@@ -17,7 +17,8 @@
     "update": "npm update --save && ((! git diff --exit-code package.json > /dev/null && git add package.json && git commit -m 'Dependency updates') || true)",
     "bundle": "mkdir -p ./dist && npx swagger-cli bundle ./src/openapi.yaml -o ./dist/openapi.json",
     "validate": "npx swagger-cli validate ./dist/openapi.json",
-    "build": "npm run clean && npm run prettier && npm run bundle && npm run validate"
+    "build": "npm run clean && npm run prettier && npm run bundle && npm run validate",
+    "pub": "npm run clean && npm run build && npm version patch && npm publish"
   },
   "eslintConfig": {},
   "devDependencies": {

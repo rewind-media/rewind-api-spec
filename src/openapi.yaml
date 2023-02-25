@@ -7,8 +7,6 @@ paths:
   /api/auth/login:
     post:
       operationId: login
-      security:
-        - LoginAuth: []
       requestBody:
         content:
           application/json:
@@ -73,7 +71,7 @@ paths:
 
   /api/user/delete:
     post:
-      operationId: deleteUser
+      operationId: deleteUsers
       security:
         - CookieAuth: []
       requestBody:
@@ -164,7 +162,7 @@ paths:
 
   /api/lib/delete:
     delete:
-      operationId: deleteLibrary
+      operationId: deleteLibraries
       security:
         - CookieAuth: []
       requestBody:
@@ -756,13 +754,19 @@ components:
         - user
         - password
     DeleteUsersRequest:
-      type: array
-      items:
-        $ref: "#/components/schemas/Username"
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/Username"
     DeleteLibrariesRequest:
-      type: array
-      items:
-        $ref: "#/components/schemas/LibraryId"
+      type: object
+      properties:
+        libraries:
+          type: array
+          items:
+            $ref: "#/components/schemas/LibraryId"
     ChangePasswordRequest:
       type: object
       properties:
@@ -878,6 +882,3 @@ components:
       type: apiKey
       in: cookie
       name: RewindSession
-    LoginAuth:
-      type: http
-      scheme: basic

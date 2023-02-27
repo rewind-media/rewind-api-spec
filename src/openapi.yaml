@@ -702,6 +702,8 @@ components:
           type: number
         season:
           type: number
+        showName:
+          type: string
         aired:
           type: number # TODO should be a date
         lastUpdated:

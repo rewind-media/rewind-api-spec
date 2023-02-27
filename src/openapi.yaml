@@ -851,15 +851,15 @@ components:
       properties:
         id:
           $ref: "#/components/schemas/MediaId"
-        duration:
+        percent:
           type: number
-          description: "Progress through media in seconds with fractions."
+          description: "Progress through the media as a percentage (0 to 1)."
         timestamp:
           type: number
           description: "Epoch millis timestamp for when the progress was set."
       required:
         - id
-        - duration
+        - percent
         - timestamp
 
     CreateStreamRequest:

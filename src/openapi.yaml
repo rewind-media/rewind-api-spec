@@ -327,6 +327,26 @@ paths:
               schema:
                 $ref: "#/components/schemas/EpisodeInfo"
 
+  /api/episode/previous/{episodeId}:
+    get:
+      operationId: getPreviousEpisode
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: episodeId
+          in: path
+          required: true
+          description: "The id for the current episode, for which the previous EpisodeInfo will be returned"
+          schema:
+            $ref: "#/components/schemas/MediaId"
+      responses:
+        "200":
+          description: "Successful query. "
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EpisodeInfo"
+
   /api/episode/next/{episodeId}:
     get:
       operationId: getNextEpisode

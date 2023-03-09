@@ -683,11 +683,9 @@ components:
         - seasonNumber
     EpisodeInfo:
       type: object
+      allOf:
+        - $ref: "#/components/schemas/MediaInfo"
       properties:
-        id:
-          $ref: "#/components/schemas/MediaId"
-        libraryId:
-          type: string
         showId:
           type: string
         seasonId:
@@ -730,10 +728,6 @@ components:
           type: number # epochMillis
         episodeImageId:
           $ref: "#/components/schemas/ImageId"
-        subtitles:
-          type: array
-          items:
-            $ref: "#/components/schemas/SubtitleInfo"
       required:
         - id
         - seasonId
@@ -891,13 +885,129 @@ components:
           type: string
         id:
           $ref: "#/components/schemas/MediaId"
-        subtitles:
+        audioTrack:
+          type: string
+        videoTrack:
+          type: string
+        subtitleTrack:
           type: string
         startOffset:
           type: number
       required:
         - library
         - id
+
+    Track:
+      type: object
+      properties:
+        id:
+          type: string
+        index:
+          type: integer
+        name:
+          type: string
+        duration:
+          type: number
+        codecName:
+          type: string
+        codecLongName:
+          type: string
+        profile:
+          type: string
+      required:
+        - name
+        - index
+
+    SubtitleTrack:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/Track"
+      properties:
+        fileName:
+          description: "Set if subtitles exist as a separate file."
+          type: string
+
+    VideoTrack:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/Track"
+      properties:
+        width:
+          type: number
+        height:
+          type: number
+        codedWidth:
+          type: number
+        codedHeight:
+          type: number
+        closedCaptions:
+          type: boolean
+        hasBFrames:
+          type: number
+        sampleAspectRatio:
+          type: string
+        displayAspectRatio:
+          type: string
+        pixFmt:
+          type: string
+        level:
+          type: number
+        colorRange:
+          type: string
+        colorSpace:
+          type: string
+        colorTransfer:
+          type: string
+        colorPrimaries:
+          type: string
+        chromaLocation:
+          type: string
+        fieldOrder:
+          type: string
+        timeCode:
+          type: string
+
+    AudioTrack:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/Track"
+      properties:
+        sampleFormat:
+          type: string
+        sampleRate:
+          type: number
+        channels:
+          type: number
+        channelLayout:
+          type: string
+        bitsPerSample:
+          type: number
+
+    MediaInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        libraryId:
+          type: string
+        audioTracks:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AudioTrack"
+        videoTracks:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/VideoTrack"
+        subtitleTracks:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/SubtitleTrack"
+      required:
+        - id
+        - libraryId
+        - audioTracks
+        - videoTracks
+        - subtitleTracks
 
   securitySchemes:
     CookieAuth:

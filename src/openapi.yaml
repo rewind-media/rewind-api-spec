@@ -632,8 +632,6 @@ components:
           type: string
         status:
           type: string
-        lastUpdated:
-          type: number # epochMillis
         tag:
           type: array
           items:
@@ -649,7 +647,6 @@ components:
       required:
         - id
         - libraryId
-        - lastUpdated
         - title
     SeasonInfo:
       type: object
@@ -670,8 +667,6 @@ components:
           type: number
         folderImageId:
           $ref: "#/components/schemas/ImageId"
-        lastUpdated:
-          type: number # epochMillis
         actor:
           type: array
           items:
@@ -679,7 +674,6 @@ components:
       required:
         - id
         - showId
-        - lastUpdated
         - seasonNumber
     EpisodeInfo:
       type: object
@@ -724,8 +718,6 @@ components:
           type: string
         aired:
           type: number # TODO should be a date
-        lastUpdated:
-          type: number # epochMillis
         episodeImageId:
           $ref: "#/components/schemas/ImageId"
       required:
@@ -733,7 +725,61 @@ components:
         - seasonId
         - showId
         - libraryId
-        - lastUpdated
+        - title
+    MovieInfo:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/MediaInfo"
+      properties:
+        plot:
+          type: string
+        outline:
+          type: string
+        title:
+          type: string
+        director:
+          type: string
+        writer:
+          type: array
+          items:
+            type: string
+        credits:
+          type: array
+          items:
+            type: string
+        studios:
+          type: array
+          items:
+            type: string
+        rating:
+          type: number
+        criticRating:
+          type: number
+        mpaa:
+          type: number
+        premiered:
+          type: string
+        tagLine:
+          type: string
+        country:
+          type: string
+        genre:
+          type: string
+        releaseDate:
+          type: string
+        year:
+          type: number
+        runTime:
+          type: number
+        actor:
+          type: number
+        episodeImageId:
+          $ref: "#/components/schemas/ImageId"
+      required:
+        - id
+        - seasonId
+        - showId
+        - libraryId
         - title
     SubtitleInfo:
       type: object

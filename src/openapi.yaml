@@ -204,6 +204,52 @@ paths:
       responses:
         200:
           description: "Successfully got LibraryInfo"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Library"
+
+  /api/movie/list/{libraryId}:
+    get:
+      operationId: listMovies
+      parameters:
+        - name: libraryId
+          in: path
+          required: true
+          description: "The id for the desired LibraryInfo."
+          schema:
+            $ref: "#/components/schemas/LibraryId"
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully listed libraries."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MovieInfo"
+
+  /api/movie/get/{movieId}:
+    get:
+      operationId: getMovie
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          description: "The id for the desired MovieInfo."
+          schema:
+            $ref: "#/components/schemas/MovieId"
+      security:
+        - CookieAuth: []
+      responses:
+        200:
+          description: "Successfully got MovieInfo"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieInfo"
 
   /api/show/list/{libraryId}:
     get:
@@ -849,6 +895,8 @@ components:
       type: string
     LibraryId:
       type: string
+    MovieId:
+      type: string
     StreamId:
       type: string
     SegmentId:
@@ -864,7 +912,7 @@ components:
     LibraryType:
       type: string
       enum:
-        - "File"
+        - "Movie"
         - "Show"
         - "Image"
     StreamStatus:
